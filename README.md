@@ -3,7 +3,7 @@
 ![alt text](https://github.com/D0M4K0M4/Unreal-Project-Manager/blob/main/Images/unreal_icon.png?raw=true)
 
 ## About:
-Unreal Project Manager is a backup tool specified for .uproject that helps to backup your Unreal Projects easly, with a few clicks or even with a click, you can autosave your project and also set an interval that will affect how frequently will save your project.
+Unreal Project Manager is a backup tool specified for .uproject that helps to backup your Unreal Projects easily, with a few clicks or even with a click, you can autosave your project and also set an interval that will affect how frequently your project will be saved.
 
 ## Design:
 
@@ -12,10 +12,13 @@ After you install this software you will may think that design is somehow famili
 ![alt text](https://github.com/D0M4K0M4/Unreal-Project-Manager/blob/main/Images/screenshot1.png?raw=true)
 ![alt text](https://github.com/D0M4K0M4/Unreal-Project-Manager/blob/main/Images/screenshot4.png?raw=true)
 
+## First step:
+You may want to choose your Project location (you do that with that you browse your project's .uproject file) that will be backupped at your choosen Backup location.
+
 ## Features:
 
 ### Save:
-What i said before you can ablo to save projects in two way either manually or automatically with a interval, you can also set the interval that will affect the how frequntly your project will be backupped.
+What i said before you can able to save projects in two way either manually or automatically with an interval, you can also set the interval that will affect the how frequntly your project will be backupped.
 You can set the Automatic save interval to: 2hr, 4hr, 6hr, 8hr, 12hr, and 24hr also, so you can will be flexible with your work flow with those options.
 
 The blue circle indicates the unzip/zipping process, than if it's successfully finished you'll see a green circle, if something is failing you'll see a yellow cicrle.
