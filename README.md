@@ -18,7 +18,7 @@ Features:
 
 Save:
 What i said before you can ablo to save projects in two way either manually or automatically with a interval, you can also set the interval that will affect the how frequntly your project will be backupped.
-You can set the Automatic save interval to: 2hr, 4hr, 6hr, 8hr, 12hr, and 24hr also, so you can will be flexiable with your work flow with those options.
+You can set the Automatic save interval to: 2hr, 4hr, 6hr, 8hr, 12hr, and 24hr also, so you can will be flexible with your work flow with those options.
 
 Listing projects:
 The program will dynamically list out all the backup projects from your choosen Backup location, you'll see some dates that's basically represents the save time of that version of the project so you can easily pick from those version, if somehow your current project is broken down, you have two option with a backupped version of your project you can open the backup location, and also you can unzip it and than after that the program will launch the project automatically as well.
