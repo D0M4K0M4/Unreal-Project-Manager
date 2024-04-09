@@ -7,7 +7,7 @@ Unreal Project Manager is a backup tool specified for .uproject that helps to ba
 
 ## Design:
 
-After you install this software you will may think that design is somehow familiar, yes if you opened the Unreal Engine atleast once you will notice the similarity...
+After you install this software you will may think that the design is somehow familiar, yes if you opened the Unreal Engine atleast once you will notice the similarity...
 
 ![alt text](https://github.com/D0M4K0M4/Unreal-Project-Manager/blob/main/Images/screenshot1.png?raw=true)
 ![alt text](https://github.com/D0M4K0M4/Unreal-Project-Manager/blob/main/Images/screenshot4.png?raw=true)
