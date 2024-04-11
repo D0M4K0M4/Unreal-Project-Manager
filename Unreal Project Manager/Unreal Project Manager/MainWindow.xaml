@@ -280,6 +280,8 @@
                 <Border CornerRadius="2" BorderBrush="#0070e0" BorderThickness="1" Margin="20, 10" Width="250" MaxHeight="107" HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Image Source="Assets/backup_projects_bg.png" Width="250" MaxHeight="107" Opacity="0.9"/>
                 </Border>
+                <TextBlock x:Name="projectName" Text="" VerticalAlignment="Top" HorizontalAlignment="Center"
+                        Foreground="#b1b1b1" FontSize="25" Margin="35" MaxWidth="250"/>
                 <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20, 10">
                     <Button Grid.Column="1" x:Name="refresh" Style="{StaticResource RoundedButtonStyle}" Content="Refresh" Background="#1a1a1a" Foreground="#b1b1b1" Padding="5" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold" Margin="0,0,0,5" Click="RefreshProj_Click"/>
                     <TextBlock x:Name="projectCount" Text="0 Backup projects" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="#b1b1b1" Margin="5" Grid.Column="1"/>

@@ -58,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B7E9003CD6A4035A9ED1A702903D7765"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5B4EB64B384C473BB624868DB5C5D9A2"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -85,6 +79,12 @@
         "OwnerKey" = "8:_0489A798B5BFDD32C79DE15064690F7B"
         "MsmSig" = "8:_UNDEFINED"
         }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B7E9003CD6A4035A9ED1A702903D7765"
+        "MsmSig" = "8:_UNDEFINED"
+        }
     }
     "Configurations"
     {
@@ -103,6 +103,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -119,6 +135,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -350,6 +374,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_3BDB3C4A5E204DBBB8D6147C13FD013F"
+                    {
+                    "Name" = "8:Cache"
+                    "AlwaysCreate" = "11:TRUE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_85280FA195B642AA87C1570FE4C9730E"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -369,7 +404,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Unreal Project Manager"
         "ProductCode" = "8:{F3B560F7-AD2C-46FE-935A-DE92258BF709}"
-        "PackageCode" = "8:{64C2D605-98F0-443F-8FB7-A9D9098DFE1E}"
+        "PackageCode" = "8:{5BDC21D7-6F94-49F2-AF96-B482052A90DA}"
         "UpgradeCode" = "8:{0B4E6540-3566-4396-94AB-D819D6BAC3EF}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -918,7 +953,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_5B4EB64B384C473BB624868DB5C5D9A2"
             {
-            "SourcePath" = "8:..\\Unreal Project Manager\\obj\\Debug\\Unreal Project Manager.exe"
+            "SourcePath" = "8:..\\Unreal Project Manager\\obj\\Release\\Unreal Project Manager.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_B56E891B527745838DA825C60E0A9390"

@@ -28,6 +28,8 @@ namespace Unreal_Project_Manager
         private DispatcherTimer autoSaveTimer;
         private List<string> projectBackup = new List<string>();
         private string backupPth = null;
+        private string projName = null;
+        private string projIconPth = null;
 
         public MainWindow()
         {
@@ -49,14 +51,13 @@ namespace Unreal_Project_Manager
         {
             string projectLocation = iniFile.Read("Settings", "ProjectLocation");
             projLocInp.Text = projectLocation;
+            SetProjectNameIcon(projectLocation);
         }
 
         private void LoadBackupSettings(IniFile iniFile)
         {
-
             string backupLocation = iniFile.Read("Settings", "BackupLocation");
             backUpLocInp.Text = backupLocation;
-            backupPth = backupLocation;
         }
 
         private void LoadIntervalSettings(IniFile iniFile)
@@ -95,12 +96,27 @@ namespace Unreal_Project_Manager
         private void SaveProjSettings()
         {
             iniFile.Write("Settings", "ProjectLocation", projLocInp.Text);
+            SetProjectNameIcon(projLocInp.Text);
         }
 
         private void SaveBackupSettings()
         {
             iniFile.Write("Settings", "BackupLocation", backUpLocInp.Text);
             backupPth = backUpLocInp.Text;
+        }
+
+        private void SetProjectNameIcon(string projectLocation)
+        {
+            if (projectLocation != "")
+            {
+                projName = Path.GetFileNameWithoutExtension(projLocInp.Text);
+                projectName.Text = projName;
+                projIconPth = $"{Path.GetDirectoryName(projLocInp.Text)}\\Saved\\AutoScreenshot.png";
+            }
+            else
+            {
+                projectName.Text = "";
+            }
         }
 
         private void SaveInterval()
@@ -247,6 +263,9 @@ namespace Unreal_Project_Manager
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(folderDialog.SelectedPath))
                 {
                     backUpLocInp.Text = folderDialog.SelectedPath;
+                    SaveBackupSettings();
+                    CleanBackupProjects();
+                    gatherProjectItems();
                 }
             }
         }
@@ -290,6 +309,9 @@ namespace Unreal_Project_Manager
         // A projekt mentését végző függvény
         private async Task<bool> BackupProject(string backupFolderPath, string projectFilePath)
         {
+            // Az alkalmazás fő mappája
+            string appFolderPath = AppDomain.CurrentDomain.BaseDirectory;
+
             // A backup mappa elérési útvonala
 
             // Ellenőrizze, hogy a backup mappa elérési útvonala üres-e
@@ -299,9 +321,6 @@ namespace Unreal_Project_Manager
                 return false;
             }
 
-            // Az alkalmazás fő mappája
-            string appFolderPath = AppDomain.CurrentDomain.BaseDirectory;
-
             // Ellenőrizze, hogy a projekt fájl elérési útvonala üres-e
             if (string.IsNullOrEmpty(projectFilePath))
             {
@@ -309,11 +328,11 @@ namespace Unreal_Project_Manager
                 return false;
             }
 
-            // A projekt fájl neve
-            string projectFileName = System.IO.Path.GetFileNameWithoutExtension(projectFilePath);
-
             // A projekt mappája (ahol a .uproject fájl található)
             string projectFolderPath = System.IO.Path.GetDirectoryName(projectFilePath);
+
+            // A projekt fájl neve
+            string projectFileName = System.IO.Path.GetFileNameWithoutExtension(projectFilePath);
 
             // A projekt mappa neve
             string projectFolderName = System.IO.Path.GetFileName(projectFolderPath);
@@ -324,13 +343,19 @@ namespace Unreal_Project_Manager
             // A ZIP fájl neve
             string zipFileName = $"UPM_{projectFileName}_{saveTime}.zip";
 
+            string tempFolderName = $"{projectFileName}_{saveTime}";
+
+            string cachePth = System.IO.Path.Combine(appFolderPath, $"Cache\\{tempFolderName}\\");
+
             // A mentéshez szükséges fájl teljes elérési útvonala
             string projectFolderFullPath = System.IO.Path.Combine(appFolderPath, projectFolderPath);
             string zipFilePath = System.IO.Path.Combine(backupFolderPath, zipFileName);
 
             try
             {
-                await Task.Run(() => ZipFile.CreateFromDirectory(projectFolderFullPath, zipFilePath));
+                bool cacheRes = cacheFolder(projectFolderFullPath, cachePth);
+                if (cacheRes == true) { await Task.Run(() => ZipFile.CreateFromDirectory($"{cachePth}", zipFilePath)); }
+                cacheClear(cachePth);
                 //System.Windows.MessageBox.Show($"Backup created successfully: {zipFileName} at {}", "Backup Successful", MessageBoxButton.OK, MessageBoxImage.Information);
                 return true;
             }
@@ -339,6 +364,61 @@ namespace Unreal_Project_Manager
                 // Hibás üzenet megjelenítése
                 //System.Windows.MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
+            }
+        }
+
+        private static bool cacheFolder(string sourceDirName, string destDirName)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+                return false;
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                if (file.Name != "desktop.ini")
+                {
+                    Console.WriteLine(file.Name);
+                    string temppath = Path.Combine(destDirName, file.Name);
+                    file.CopyTo(temppath, false);
+                }
+            }
+
+
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string temppath = Path.Combine(destDirName, subdir.Name);
+                cacheFolder(subdir.FullName, temppath);
+            }
+            return true;
+        }
+
+        private static void cacheClear(string sourceDirName)
+        {
+            try
+            {
+                Directory.Delete(sourceDirName, true);
+            }
+            catch (Exception ex)
+            {
+                throw new DirectoryNotFoundException(
+                $"Failed to delete Cache: {ex.Message}"
+                + sourceDirName);
             }
         }
 
@@ -469,7 +549,7 @@ namespace Unreal_Project_Manager
                     string fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(file);
                     string fileName = System.IO.Path.GetFileName(file);
                     // Ellenőrizzük, hogy a fájl nevében legalább három '_' karakter van-e
-                    if (fileName.StartsWith("UPM") && fileName.Count(c => c == '_') >= 3 && fileName.EndsWith(".zip"))
+                    if (fileName.StartsWith("UPM") && fileName.Contains($"{projName}") && fileName.Count(c => c == '_') >= 3 && fileName.EndsWith(".zip"))
                     {
                         projectBackup.Add(fileNameWithoutExtension);
                         projectC++;
@@ -544,9 +624,11 @@ namespace Unreal_Project_Manager
 
             border.Child = grid; // A Grid-et a Border Child-jává kell tenni
 
-            // Image létrehozása
+            // Image létrehozásaprojIconPth
             Image image = new Image();
-            image.Source = new BitmapImage(new Uri("Assets/backup_projects.png", UriKind.Relative));
+            Console.WriteLine(projIconPth);
+            if (projIconPth != null) { image.Source = new BitmapImage(new Uri(projIconPth, UriKind.Absolute)); }
+            else image.Source = new BitmapImage(new Uri("Assets/backup_projects.png", UriKind.Relative));
             image.Width = 100;
             image.MaxHeight = 100;
             image.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;

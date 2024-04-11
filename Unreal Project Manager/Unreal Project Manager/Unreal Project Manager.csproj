@@ -158,5 +158,8 @@
   <ItemGroup>
     <Resource Include="Assets\backup_projects.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cache\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
